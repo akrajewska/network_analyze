@@ -44,10 +44,12 @@ LABELS = {
     'Heartbleed': 8,
     'PortScan': 9,
     'SSH-Patator': 10,
-    'Web Attack  Brute Force': 11,
+    'Web Attack   Brute Force': 11,
     'Web Attack   Sql Injection':12,
     'Web Attack   XSS': 13
 }
+
+
 def prepare_df():
     # df = pd.read_csv(dfile, parse_dates=[' Timestamp'], date_parser=dateparse)
     df = pd.concat((pd.read_csv(DATA_DIR / f) for f in os.listdir(DATA_DIR)), ignore_index=True)
@@ -70,11 +72,13 @@ def data_arrays(df):
 
 def data_tensors(df):
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    y = torch.tensor(df['Label'].map(LABELS).values,  device=device)
+
+    df = df[QUANT_COLS + ['Label']]
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df = df[df.select_dtypes(include=[np.number]).ge(0).all(1)]
+    df = df.dropna()
+    y = torch.tensor(df['Label'].map(LABELS).values, device=device, dtype=torch.float32)
     df = df[QUANT_COLS]
-    #df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    # df = df[df.select_dtypes(include=[np.number]).ge(0).all(1)]
-    # df = df.dropna()
     #X = torch.from_numpy(df.values, dtype=torch.float32, device=device)
     X = torch.tensor(df.values, dtype=torch.float32, device=device)
 
