@@ -6,6 +6,7 @@ authors = ["antoninak <antonina.krajewska@nask.pl>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+kmeans-pytorch = "^0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

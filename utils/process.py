@@ -46,7 +46,9 @@ LABELS = {
     'SSH-Patator': 10,
     'Web Attack   Brute Force': 11,
     'Web Attack   Sql Injection':12,
-    'Web Attack   XSS': 13
+    'Web Attack   XSS': 13,
+    'Infiltration': 14,
+    'BENIGN': 15,
 }
 
 
